@@ -40,3 +40,6 @@ Esse módulo é basicamente uma recriação da biblioteca curses usando python p
 # complex.py
 Esse módulo possui uma poderosa (e bonita) representação de números complexos usando python, estão definidas praticamente todas as operações com excessão a exponenciação com expoente complexo.
 A principal adição desse módulo em relação a implementação original do python para complexos (além do visual) é a possibilidade de encontrar todas as n-raizes em uma raíz enésima usando o método `all_roots`.
+
+# Assembly
+A pasta assembly possui alguns códigos em assembly, são coisas simples como fibonacci, algoritmos de ordenação simples e etc.
