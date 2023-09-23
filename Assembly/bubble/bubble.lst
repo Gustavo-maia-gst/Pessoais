@@ -1,0 +1,71 @@
+     1                                 %line 1+1 bubble.asm
+     2                                 [section .data]
+     3 00000000 FF                      sentinel db 0xFF
+     4 00000001 040701030C050008FF      array db 4, 7, 1, 3, 12, 5, 0, 8, 0xFF
+     5                                 
+     6                                 [section .bss]
+     7 00000000 <gap>                   arrayLen resb 1
+     8                                 
+     9                                 [section .text]
+    10                                 [global _start]
+    11                                 
+    12                                 _start:
+    13 00000000 E838000000              call _getArrayLen
+    14 00000005 880425[00000000]        mov byte [arrayLen], al
+    15                                 
+    16 0000000C 48C7C6[00000000]        mov rsi, array
+    17 00000013 8A0425[00000000]        mov al, byte [arrayLen]
+    18 0000001A 48FFC8                  dec rax
+    19 0000001D 4831DB                  xor rbx, rbx
+    20 00000020 4831C9                  xor rcx, rcx
+    21 00000023 4831D2                  xor rdx, rdx
+    22                                 
+    23 00000026 8A1C25[00000000]        mov bl, byte [arrayLen]
+    24 0000002D E82E000000              call _bubbleSort
+    25                                 
+    26 00000032 48C7C03C000000          mov rax, 60
+    27 00000039 48C7C700000000          mov rdi, 0
+    28 00000040 0F05                    syscall
+    29                                 
+    30                                 _getArrayLen:
+    31 00000042 B3FF                    mov bl, 0xFF
+    32 00000044 4831C0                  xor rax, rax
+    33 00000047 4831C9                  xor rcx, rcx
+    34                                 
+    35 0000004A 48C7C6[00000000]        mov rsi, array
+    36 00000051 E8FFFFFFFF              call _getArrayLenLoop
+    37 00000056 48FFC8                  dec rax
+    38 00000059 C3                      ret
+    39                                 
+    40                                 _getArrayLenLoop:
+    41 0000005A 8A0C06                  mov cl, byte [rsi + rax]
+    42 0000005D 48FFC0                  inc rax
+    43 00000060 38D9                    cmp cl, bl
+    44 00000062 75F4                    jne _getArrayLenLoop
+    45 00000064 C3                      ret
+    46                                 
+    47                                 _bubbleSort:
+    48 00000065 8A0C06                  mov cl, byte [rsi + rax]
+    49 00000068 4188C0                  mov r8b, al
+    50 0000006B 41FEC8                  dec r8b
+    51 0000006E E80E000000              call _secLoop
+    52 00000073 48FFC8                  dec rax
+    53 00000076 3C00                    cmp al, 0
+    54 00000078 B200                    mov dl, 0
+    55 0000007A 75E7                    jne _bubbleSort
+    56 0000007C C3                      ret
+    57                                 
+    58                                 _swap:
+    59 0000007D 40883C16                mov byte [rsi + rdx], dil
+    60 00000081 44884C16FF              mov byte [rsi + rdx - 1], r9b
+    61                                 
+    62                                 _secLoop:
+    63 00000086 408A3C16                mov dil, byte [rsi + rdx]
+    64 0000008A 448A4C1601              mov r9b, byte [rsi + rdx + 1]
+    65 0000008F FEC2                    inc dl
+    66 00000091 4438CF                  cmp dil, r9b
+    67 00000094 77E5                    ja _swap
+    68 00000096 4438C2                  cmp dl, r8b
+    69 00000099 72E9                    jb _secLoop
+    70 0000009B C3                      ret
+    71                                 

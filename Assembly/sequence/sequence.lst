@@ -1,0 +1,137 @@
+     1                                 %line 1+1 sequence.asm
+     2                                 [section .data]
+     3 00000000 150005003F001F002D-     nums dw 21, 5, 63, 31, 45, 10, 0
+     4 00000000 000A000000         
+     5 0000000E 0000                    sentinel dw 0
+     6                                 
+     7                                 [section .bss]
+     8 00000000 <gap>                   maxNum resw 1
+     9 00000002 <gap>                   minNum resw 1
+    10 00000004 <gap>                   middleNum resw 1
+    11 00000006 <gap>                   numsLen resb 1
+    12 00000007 <gap>                   numsSum resw 1
+    13                                 
+    14                                 [section .text]
+    15                                 [global _start]
+    16                                 
+    17                                 _start:
+    18 00000000 E8EC000000              call _getNumsLen
+    19 00000005 880C25[00000000]        mov byte [numsLen], cl
+    20                                 
+    21 0000000C E8B2000000              call _sumNums
+    22 00000011 66890425[00000000]      mov word [numsSum], ax
+    23                                 
+    24 00000019 E82D000000              call _minNums
+    25 0000001E 66890425[00000000]      mov word [minNum], ax
+    26                                 
+    27 00000026 E85C000000              call _maxNums
+    28 0000002B 66890425[00000000]      mov word [maxNum], ax
+    29                                 
+    30 00000033 E8E3000000              call _middleNums
+    31 00000038 66890425[00000000]      mov word [middleNum], ax
+    32                                 
+    33 00000040 48C7C03C000000          mov rax, 60
+    34 00000047 48C7C700000000          mov rdi, 0
+    35 0000004E 0F05                    syscall
+    36                                 
+    37                                 _minNums:
+    38 00000050 668B0425[00000000]      mov ax, word [nums]
+    39 00000058 4831DB                  xor rbx, rbx
+    40 0000005B 408A3425[00000000]      mov sil, byte [numsLen]
+    41 00000063 48FFCE                  dec rsi
+    42 00000066 48C7C2[00000000]        mov rdx, nums
+    43 0000006D 4831C9                  xor rcx, rcx
+    44 00000070 E800000000              call _minNumsLoop
+    45 00000075 C3                      ret
+    46                                 
+    47                                 _chmin:
+    48 00000076 6689D8                  mov ax, bx
+    49 00000079 C3                      ret
+    50                                 
+    51                                 _minNumsLoop:
+    52 0000007A 48FFC1                  inc rcx
+    53 0000007D 668B1C4A                mov bx, word [rdx + rcx * 2]
+    54 00000081 6639C3                  cmp bx, ax
+    55 00000084 72EE                    jb _chmin
+    56 00000086 4839F1                  cmp rcx, rsi
+    57 00000089 75ED                    jne _minNumsLoop
+    58 0000008B C3                      ret
+    59                                 
+    60                                 _maxNums:
+    61 0000008C 668B0425[00000000]      mov ax, word [nums]
+    62 00000094 4831DB                  xor rbx, rbx
+    63 00000097 4831C9                  xor rcx, rcx
+    64 0000009A 48C7C2[00000000]        mov rdx, nums
+    65 000000A1 408A3425[00000000]      mov sil, byte [numsLen]
+    66 000000A9 48FFCE                  dec rsi
+    67 000000AC E800000000              call _maxNumsLoop
+    68 000000B1 C3                      ret
+    69                                 
+    70                                 _chmax:
+    71 000000B2 6689D8                  mov ax, bx
+    72 000000B5 C3                      ret
+    73                                 
+    74                                 _maxNumsLoop:
+    75 000000B6 48FFC1                  inc rcx
+    76 000000B9 668B1C4A                mov bx, word [rdx + rcx * 2]
+    77 000000BD 6639C3                  cmp bx, ax
+    78 000000C0 77EE                    ja _chmax
+    79 000000C2 4839F1                  cmp rcx, rsi
+    80 000000C5 75ED                    jne _maxNumsLoop
+    81 000000C7 C3                      ret
+    82                                 
+    83                                 _sumNums:
+    84 000000C8 66B80000                mov ax, 0
+    85 000000CC 66BB0000                mov bx, 0
+    86 000000D0 48C7C100000000          mov rcx, 0
+    87 000000D7 48C7C2[00000000]        mov rdx, nums
+    88 000000DE 408A3425[00000000]      mov sil, byte [numsLen]
+    89                                 
+    90                                 _sumNumsLoop:
+    91 000000E6 668B1C4A                mov bx, word [rdx + 2 * rcx]
+    92 000000EA 6601D8                  add ax, bx
+    93 000000ED 48FFC1                  inc rcx
+    94 000000F0 4839F1                  cmp rcx, rsi
+    95 000000F3 75EF                    jne _sumNumsLoop
+    96 000000F5 C3                      ret
+    97                                 
+    98                                 _getNumsLen:
+    99 000000F6 48C7C300000000          mov rbx, 0
+   100 000000FD 48C7C100000000          mov rcx, 0
+   101 00000104 48C7C0[00000000]        mov rax, nums
+   102                                 
+   103                                 _getNumsLenLoop:
+   104 0000010B 668B1C48                mov bx, word [rax + 2 * rcx]
+   105 0000010F 48FFC1                  inc rcx
+   106 00000112 663B1C25[00000000]      cmp bx, word [sentinel]
+   107 0000011A 75ED                    jne _getNumsLenLoop
+   108 0000011C 48FFC9                  dec rcx
+   109 0000011F C3                      ret
+   110                                 
+   111                                 _middleNums:
+   112 00000120 4831D2                  xor rdx, rdx
+   113 00000123 4831C0                  xor rax, rax
+   114 00000126 8A0425[00000000]        mov al, byte [numsLen]
+   115 0000012D BB02000000              mov ebx, 2
+   116 00000132 F7F3                    div ebx
+   117 00000134 4883FA00                cmp rdx, 0
+   118 00000138 7410                    je _evenValue
+   119 0000013A EBFF                    jmp _oddValue
+   120 0000013C C3                      ret
+   121                                 
+   122                                 _oddValue:
+   123 0000013D 48C7C6[00000000]        mov rsi, nums
+   124 00000144 668B1C46                mov bx, word [rsi + rax * 2]
+   125 00000148 4889D8                  mov rax, rbx
+   126 0000014B C3                      ret
+   127                                 
+   128                                 _evenValue:
+   129 0000014C 48FFC8                  dec rax
+   130 0000014F 48C7C6[00000000]        mov rsi, nums
+   131 00000156 668B1C46                mov bx, word [rsi + 2 * rax]
+   132 0000015A 668B4C4602              mov cx, word [rsi + 2 * rax + 2]
+   133 0000015F 4801CB                  add rbx, rcx
+   134 00000162 4889D8                  mov rax, rbx
+   135 00000165 48C7C302000000          mov rbx, 2
+   136 0000016C 48F7F3                  div rbx
+   137 0000016F C3                      ret

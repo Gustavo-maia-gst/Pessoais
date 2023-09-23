@@ -1,0 +1,51 @@
+     1                                 %line 1+1 sqrt.asm
+     2                                 [section .data]
+     3 00000000 B9010000                number dd 441
+     4                                 
+     5                                 [section .bss]
+     6 00000000 01000000                sqrt dd 1
+     7                                 
+     8                                 [section .text]
+     9                                 [global _start]
+    10                                 
+    11                                 _start:
+    12 00000000 48C7C37B000000          mov rbx, 123
+    13                                 
+    14 00000007 8B3C25[00000000]        mov edi, dword [number]
+    15 0000000E E812000000              call _sqrt
+    16 00000013 890425[00000000]        mov dword [sqrt], eax
+    17                                 
+    18 0000001A 48C7C03C000000          mov rax, 60
+    19 00000021 48C7C700000000          mov rdi, 0
+    20 00000028 0F05                    syscall
+    21                                 
+    22                                 _sqrt:
+    23 0000002A 53                      push rbx
+    24 0000002B 89FB                    mov ebx, edi
+    25 0000002D 48C7C132000000          mov rcx, 50
+    26                                 
+    27 00000034 E8FFFFFFFF              call _sqrtLoop
+    28 00000039 89D8                    mov eax, ebx
+    29 0000003B 5B                      pop rbx
+    30 0000003C C3                      ret
+    31                                 
+    32                                 _sqrtLoop:
+    33 0000003D 89F8                    mov eax, edi
+    34 0000003F 4831D2                  xor rdx, rdx
+    35 00000042 F7F3                    div ebx
+    36 00000044 01D8                    add eax, ebx
+    37 00000046 D1E8                    shr eax, 1
+    38 00000048 89DE                    mov esi, ebx
+    39 0000004A 89C3                    mov ebx, eax
+    40                                 
+    41 0000004C 39F3                    cmp ebx, esi
+    42 0000004E 7408                    je _sqrtFinded
+    43                                 
+    44 00000050 48FFC9                  dec rcx
+    45 00000053 4883F900                cmp rcx, 0
+    46 00000057 75E2                    jne _sqrtLoop
+    47                                 
+    48 00000059 C3                      ret
+    49                                 
+    50                                 _sqrtFinded:
+    51 0000005A C3                      ret

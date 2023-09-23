@@ -1,0 +1,50 @@
+     1                                 %line 1+1 squares.asm
+     2                                 [section .data]
+     3 00000000 0A00                    maxNum dw 10
+     4 00000002 0000                    resSum dw 0
+     5 00000004 436F72726563742041-     eqText db "Correct Answer!", 10
+     6 00000004 6E73776572210A     
+     7 00000014 496E636F7272656374-     neqText db "Incorrect Answer!", 10
+     8 00000014 20416E73776572210A 
+     9                                 
+    10                                 [section .text]
+    11                                 [global _start]
+    12                                 
+    13                                 _start:
+    14 00000000 48C7C100000000          mov rcx, 0
+    15 00000007 E80B000000              call _sumLoop
+    16                                 
+    17 0000000C 668B0425[00000000]      mov ax, word [resSum]
+    18 00000014 663D8101                cmp ax, 385
+    19 00000018 741B                    je _isEqual
+    20 0000001A EB3C                    jmp _notEqual
+    21                                 
+    22                                 _sumLoop:
+    23 0000001C 48FFC1                  inc rcx
+    24 0000001F 4889C8                  mov rax, rcx
+    25 00000022 48F7E0                  mul rax
+    26 00000025 66010425[00000000]      add word [resSum], ax
+    27                                 
+    28 0000002D 663B0C25[00000000]      cmp cx, word [maxNum]
+    29 00000035 75E3                    jne _sumLoop
+    30                                 
+    31                                 _isEqual:
+    32 00000037 48C7C001000000          mov rax, 1
+    33 0000003E 48C7C701000000          mov rdi, 1
+    34 00000045 48C7C6[00000000]        mov rsi, eqText
+    35 0000004C 48C7C210000000          mov rdx, 16
+    36 00000053 0F05                    syscall
+    37 00000055 E81E000000              call _exit
+    38                                 
+    39                                 _notEqual:
+    40 0000005A 48C7C001000000          mov rax, 1
+    41 00000061 48C7C701000000          mov rdi, 1
+    42 00000068 48C7C6[00000000]        mov rsi, neqText
+    43 0000006F 48C7C212000000          mov rdx, 18
+    44 00000076 0F05                    syscall
+    45 00000078 E8FBFFFFFF              call _exit
+    46                                 
+    47                                 _exit:
+    48 0000007D 48C7C03C000000          mov rax, 60
+    49 00000084 48C7C700000000          mov rdi, 0
+    50 0000008B 0F05                    syscall

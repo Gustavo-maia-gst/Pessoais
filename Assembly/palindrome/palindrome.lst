@@ -1,0 +1,64 @@
+     1                                 %line 1+1 palindrome.asm
+     2                                 [section .data]
+     3 00000000 23201E2D1E202300        num db 35, 32, 30, 45, 30, 32, 35, 00
+     4 00000008 00                      sentinel db 00
+     5                                 
+     6                                 [section .bss]
+     7 00000000 01                      numLen db 1
+     8 00000001 01                      palindrome db 1
+     9 00000002 <gap>                   result resb 1
+    10                                 
+    11                                 [section .text]
+    12                                 [global _start]
+    13                                 
+    14                                 _start:
+    15 00000000 E867000000              call _getNumLen
+    16 00000005 880C25[00000000]        mov byte [numLen], cl
+    17                                 
+    18                                 _isPalindrome:
+    19 0000000C 4831C0                  xor rax, rax
+    20 0000000F 8A0425[00000000]        mov al, byte [numLen]
+    21 00000016 48D1E8                  shr rax, 1
+    22 00000019 4831DB                  xor rbx, rbx
+    23 0000001C 4831C9                  xor rcx, rcx
+    24 0000001F 4831D2                  xor rdx, rdx
+    25 00000022 4831FF                  xor rdi, rdi
+    26 00000025 8A0C25[00000000]        mov cl, byte [numLen]
+    27 0000002C FEC9                    dec cl
+    28                                 
+    29                                 _isPalindromeLoop:
+    30 0000002E 408ABA[00000000]        mov dil, byte [num + rdx]
+    31 00000035 408AB1[00000000]        mov sil, byte [num + rcx]
+    32 0000003C 48FFC9                  dec rcx
+    33 0000003F 48FFC2                  inc rdx
+    34 00000042 4038F7                  cmp dil, sil
+    35 00000045 7504                    jne _isNot
+    36 00000047 38C1                    cmp cl, al
+    37 00000049 75E1                    jne _isPalindromeLoop
+    38 0000004B EB08                    jmp _is
+    39                                 
+    40                                 _isNot:
+    41 0000004D C60425[00000000]00      mov byte [result], 0
+    42 00000055 EB08                    jmp _exit
+    43                                 
+    44                                 _is:
+    45 00000057 C60425[00000000]01      mov byte [result], 1
+    46 0000005F EBFE                    jmp _exit
+    47                                 
+    48                                 _exit:
+    49 00000061 48C7C03C000000          mov rax, 60
+    50 00000068 48C7C700000000          mov rdi, 0
+    51 0000006F 0F05                    syscall
+    52                                 
+    53                                 _getNumLen:
+    54 00000071 48C7C300000000          mov rbx, 0
+    55 00000078 48C7C100000000          mov rcx, 0
+    56 0000007F 48C7C0[00000000]        mov rax, num
+    57                                 
+    58                                 _getNumLenLoop:
+    59 00000086 8A1C08                  mov bl, byte [rax + rcx]
+    60 00000089 48FFC1                  inc rcx
+    61 0000008C 3A1C25[00000000]        cmp bl, byte [sentinel]
+    62 00000093 75EF                    jne _getNumLenLoop
+    63 00000095 48FFC9                  dec rcx
+    64 00000098 C3                      ret

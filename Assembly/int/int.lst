@@ -1,0 +1,73 @@
+     1                                 %line 1+1 int.asm
+     2                                 [section .data]
+     3 00000000 32303035                string db 0x32, 0x30, 0x30, 0x35
+     4                                 
+     5                                 [section .bss]
+     6 00000000 <gap>                   num resw 1
+     7                                 
+     8                                 [section .text]
+     9                                 [global _start]
+    10                                 
+    11                                 _start:
+    12 00000000 48C7C7[00000000]        mov rdi, string
+    13 00000007 48C7C604000000          mov rsi, 4
+    14                                 
+    15 0000000E E813000000              call _strToInt
+    16 00000013 66890425[00000000]      mov word [num], ax
+    17                                 
+    18 0000001B 48C7C03C000000          mov rax, 60
+    19 00000022 48C7C600000000          mov rsi, 0
+    20 00000029 0F05                    syscall
+    21                                 
+    22                                 _strToInt:
+    23 0000002B 48C7C101000000          mov rcx, 1
+    24 00000032 4831C0                  xor rax, rax
+    25 00000035 4831D2                  xor rdx, rdx
+    26                                 
+    27                                 _strToIntLoop:
+    28 00000038 4D31D2                  xor r10, r10
+    29 0000003B 4D31DB                  xor r11, r11
+    30                                 
+    31 0000003E 4989F2                  mov r10, rsi
+    32 00000041 4929CA                  sub r10, rcx
+    33                                 
+    34 00000044 50                      push rax
+    35 00000045 57                      push rdi
+    36 00000046 56                      push rsi
+    37                                 
+    38 00000047 48C7C70A000000          mov rdi, 10
+    39 0000004E 4C89D6                  mov rsi, r10
+    40 00000051 E81F000000              call _power
+    41 00000056 4989C2                  mov r10, rax
+    42                                 
+    43 00000059 5E                      pop rsi
+    44 0000005A 5F                      pop rdi
+    45                                 
+    46 0000005B 448A5C0FFF              mov r11b, byte [rdi + rcx - 1]
+    47 00000060 4983EB30                sub r11, 0x30
+    48 00000064 4C89D8                  mov rax, r11
+    49 00000067 49F7E2                  mul r10
+    50 0000006A 4989C3                  mov r11, rax
+    51 0000006D 58                      pop rax
+    52 0000006E 4C01D8                  add rax, r11
+    53                                 
+    54 00000071 48FFC1                  inc rcx
+    55 00000074 4839F1                  cmp rcx, rsi
+    56 00000077 76BD                    jbe _strToIntLoop
+    57                                 
+    58 00000079 C3                      ret
+    59                                 
+    60                                 _power:
+    61 0000007A 48C7C001000000          mov rax, 1
+    62 00000081 4883FE00                cmp rsi, 0
+    63 00000085 7506                    jne _powerLoop
+    64 00000087 48C7C001000000          mov rax, 1
+    65 0000008E C3                      ret
+    66                                 
+    67                                 _powerLoop:
+    68 0000008F 48F7E7                  mul rdi
+    69                                 
+    70 00000092 48FFCE                  dec rsi
+    71 00000095 4883FE00                cmp rsi, 0
+    72 00000099 75F2                    jne _powerLoop
+    73 0000009B C3                      ret
