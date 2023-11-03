@@ -1,0 +1,8 @@
+nome:str;idade:int;curso:str;periodo:int;
+Gustavo;17;CC;1;
+Ana;17;CC;1;
+Stefane;18;CC;1;
+Kemilli;18;CC;1;
+Pedro;18;EE;1;
+Joaquim;23;CC;4;
+Rodrigo;27;CC;4;
