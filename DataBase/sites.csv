@@ -1,0 +1,3 @@
+nome:str;url:str;id:int;
+google;https://www.google.com;5;
+facebook;https://www.facebook.com;2;
