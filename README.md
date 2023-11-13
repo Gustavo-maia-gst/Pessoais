@@ -18,13 +18,6 @@ Quanto ao algoritmo, havia pensado nele sozinho, entretanto Newton pensou primei
 Bom, o nome é autoexplicativo, é um donnut girando na tela.
 Para gerar a imagem é usado a projeção de um torus sendo rotacionado em dois eixos, o programa foi gerado sem usar nenhuma equação paramétrica para a figura.
 
-# search
-Esse talvez seja o mais complexo entre os algoritmos até então, o problema é para encontrar o menor caminho possível entre as cidades de Arad e Bucharest considerando o grafo abaixo:
-
-![Busca](https://4.bp.blogspot.com/_NpbmFwsFQhU/Sp7zQbeKksI/AAAAAAAAAA8/eV5TMj5lYjs/s280/arad1.JPG)
-
-- A solução para esse problema seguiu o descrito em pseudocode no livro "Artificial Inteligence: A modern approach"
-
 # matrices.py
 Esse módulo implementa algumas funções interessantes para se lidar com matrizes, o core do módulo está na função `row_reduce` que realiza combinações lineares entre as linhas da matriz para diagonalizá-la, essas operações mantém o determinante igual.
 Sem dúvidas a função mais interessante é a `solve`, ela funciona quase da mesma forma que a row_reduce em uma matriz contendo o sistema linear e o vetor resultado ,entretanto o objetivo é obter uma matriz identidade, que representa a solução
