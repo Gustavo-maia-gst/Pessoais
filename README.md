@@ -23,7 +23,7 @@ Esse módulo implementa algumas funções interessantes para se lidar com matriz
 Sem dúvidas a função mais interessante é a `solve`, ela funciona quase da mesma forma que a row_reduce em uma matriz contendo o sistema linear e o vetor resultado ,entretanto o objetivo é obter uma matriz identidade, que representa a solução
 
 # least_squares.py
-Esse módulo é bem simples, a parte complexa é em verdade a derivação até se chegar no sistema linear que é resolvido no módulo para se chegar na regressão linear.
+Esse módulo é bem simples, só a implementação da aproximação de least squares.
 
 # nino.py
 Esse módulo é basicamente uma recriação da biblioteca curses usando python puro, foi usado apenas a biblioteca evdev para capturar eventos de teclado, o que acredito não ser possível usando python puro. Uma das coisas mais interessantes é o objeto `keyboard` da classe passada como parâmetro para a função a ser executada no wrapper, esse objeto possui o decorador `@keyboard.listener` que abre uma thread listener para os eventos de teclado executando a função decorada passando como parâmetro o event. Outra implementação interessante é o `WrapperContextManager` que implementa o protocolo dos gerenciadores de contexto e é responsável por detalhes como manter o cursor escondido, dar grab no teclado, já que não é possível abrir um buffer separado sem usar bibliotecas externas, e certificar-se que essas alterações serão desfeitas antes do término do programa.
