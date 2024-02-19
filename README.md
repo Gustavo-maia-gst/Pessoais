@@ -1,7 +1,7 @@
 # Pessoais
 Projetos gerais que desenvolvi.
 
-# polynomial.py
+# Python/math/polynomial.py
 ### Geral
 Esse módulo é talvez o mais interessante da lista, ele apresenta uma abstração para a representação de polinômios em python, a classe `Polynomial` é inicializada com uma string do tipo `'+axn +bxm'` para ax^n + bx^m, ela pode ser usada para operações básicas entre polinômios, como multiplicação e divisão, mas o principal foco é o rootfinding.
 
@@ -14,23 +14,26 @@ Quanto ao algoritmo, havia pensado nele sozinho, entretanto Newton pensou primei
 2. O método estático `roots` é o que realmente encontra todas as raízes, ele funciona chamando o método `find_root`, dividindo o polinômio por (x - r) onde r é a raiz encontrada, e resolvendo o polinômio de menor grau recursivamente. O caso da base da recursão é o grau 2, onde é usado a fórmula de Bháskara para encontrar as raízes.
 3. Nos casos onde o coeficiente é ímpar, ao menos uma raíz sempre será encontrada, existe a possibilidade que o algoritmo falhe em polinômios de grau par maior ou igual 6 sem raízes nos pontos críticos extremos, o que é bem raro.
 
-# donnut3.py
+# Database/LogDB
+O LogDB é um protótipo de banco de dados estruturado em log com hash, ele trabalha com uma tabela hash entre o id do objeto e o offset no arquivo binário da posição do objeto. Uma coisa interessante desse módulo é a serialização das classes C++ para objetos binários que são salvos em disco. 
+
+# Python/donnut3.py
 Bom, o nome é autoexplicativo, é um donnut girando na tela.
 Para gerar a imagem é usado a projeção de um torus sendo rotacionado em dois eixos, o programa foi gerado sem usar nenhuma equação paramétrica para a figura.
 
-# matrices.py
+# Python/math/matrices.py
 Esse módulo implementa algumas funções interessantes para se lidar com matrizes, o core do módulo está na função `row_reduce` que realiza combinações lineares entre as linhas da matriz para diagonalizá-la, essas operações mantém o determinante igual.
 Sem dúvidas a função mais interessante é a `solve`, ela funciona quase da mesma forma que a row_reduce em uma matriz contendo o sistema linear e o vetor resultado ,entretanto o objetivo é obter uma matriz identidade, que representa a solução
 
-# least_squares.py
+# Python/math/least_squares.py
 Esse módulo é bem simples, só a implementação da aproximação de least squares.
 
-# nino.py
+# Python/nino/nino.py
 Esse módulo é basicamente uma recriação da biblioteca curses usando python puro, foi usado apenas a biblioteca evdev para capturar eventos de teclado, o que acredito não ser possível usando python puro. Uma das coisas mais interessantes é o objeto `keyboard` da classe passada como parâmetro para a função a ser executada no wrapper, esse objeto possui o decorador `@keyboard.listener` que abre uma thread listener para os eventos de teclado executando a função decorada passando como parâmetro o event. Outra implementação interessante é o `WrapperContextManager` que implementa o protocolo dos gerenciadores de contexto e é responsável por detalhes como manter o cursor escondido, dar grab no teclado, já que não é possível abrir um buffer separado sem usar bibliotecas externas, e certificar-se que essas alterações serão desfeitas antes do término do programa.
 
 - O módulo `snake.py` é um jogo da cobrinha bem básico usando a nino.
 
-# complex.py
+# Python/math/complex.py
 Esse módulo possui uma poderosa (e bonita) representação de números complexos usando python, estão definidas praticamente todas as operações com excessão a exponenciação com expoente complexo.
 A principal adição desse módulo em relação a implementação original do python para complexos (além do visual) é a possibilidade de encontrar todas as n-raizes em uma raíz enésima usando o método `all_roots`.
 
