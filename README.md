@@ -15,7 +15,12 @@ Quanto ao algoritmo, havia pensado nele sozinho, entretanto Newton pensou primei
 3. Nos casos onde o coeficiente é ímpar, ao menos uma raíz sempre será encontrada, existe a possibilidade que o algoritmo falhe em polinômios de grau par maior ou igual 6 sem raízes nos pontos críticos extremos, o que é bem raro.
 
 # Database/LogDB
-O LogDB é um protótipo de banco de dados estruturado em log com hash, ele trabalha com uma tabela hash entre o id do objeto e o offset no arquivo binário da posição do objeto. Uma coisa interessante desse módulo é a serialização das classes C++ para objetos binários que são salvos em disco. 
+O LogDB é um protótipo de banco de dados estruturado em log com hash, ele trabalha com uma tabela hash entre o id do objeto e o offset no arquivo binário da posição do objeto. Uma coisa interessante desse módulo é a serialização das classes C++ para objetos binários que são salvos em disco. Existem 4 classes principais:
+
+`LogModel`: Essa classe representa o modelo base serializável, ela implementa o métodos para serialização dos tipos primitivos usados pelas classes filhas.
+`LogRepository`: Classe que fornece a abstração de repository para as classes que herdam de LogModel, funciona como os repositories fornecidos pelos ORM de linguagens de alto nível.
+`SegmentManager`: Realiza a comunicação entre o repository e os arquivos, lidando também com tarefas como a compressão dos logs, que envolve recriar os arquivos.
+`SegmentFile`: Essa classe é uma abstração para um arquivo de segmento usado para armazenar algum model.
 
 # Python/donnut3.py
 Bom, o nome é autoexplicativo, é um donnut girando na tela.
