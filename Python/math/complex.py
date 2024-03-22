@@ -1,7 +1,5 @@
 from numbers import Complex, Real
 import math
-from trigonometric import half_cis
-
 
 class ComplexNumber(Complex):
     precision = 4
@@ -167,18 +165,5 @@ class ComplexNumber(Complex):
 
     def __round__(self, n=None) -> Complex:
         return self.__class__(round(self.real, n), round(self.imag, n))
-
-
-def sqrt(number: Complex) -> Complex:
-    if isinstance(number, Real):
-        number = ComplexNumber(number, 0)
-    if abs(number) == 0:
-        return 0
-    sin_half, cos_half = half_cis(number.sin, number.cos)
-    new_abs = abs(number) ** (1 / 2)
-    real = new_abs * cos_half
-    imag = new_abs * sin_half
-    return ComplexNumber(real, imag)
-
 
 i = ComplexNumber(0, 1)
