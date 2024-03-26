@@ -19,24 +19,30 @@ class Logarithm(Function):
 
         return Constant(1) / (Logarithm(math.e, self.base) * self.inner)
 
+    def simplificate(self) -> 'BaseSymbol':
+        if self.base == self.inner:
+            return Constant(1)
+
+        return self
+
     def __repr__(self) -> str:
         representation = f'log{self.base}' if self.base != math.e else 'ln'
         return f'{representation}({self.inner})'
 
 
-class Exponential(Function):
-    def __init__(self, base: Constant | Real, inner: Any = Variable("x")):
-        super().__init__(inner)
+class Exponential(BaseSymbol):
+    def __init__(self, base: 'BaseSymbol', inner: Any = Variable("x")):
+        self.inner = inner
         self.base = base
 
     def evaluate(self, x: Real) -> Real:
-        return x ** self.inner.evaluate(x)
+        return self.base.evaluate(x) ** self.inner.evaluate(x)
 
-    def _self_derivate(self) -> 'BaseSymbol':
-        if self.base == math.e:
-            return self
-
-        return Logarithm(self.base, math.e) * Exponential(self.base, self.inner)
+    def derivate(self) -> 'BaseSymbol':
+        g = self.inner * Logarithm(math.e, self.base)
+        deriv = self * g.derivate()
+        print(deriv)
+        return deriv
 
     def simplificate(self) -> 'BaseSymbol':
         if self.base == 0:

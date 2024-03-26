@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from numbers import Real
-from typing import Any
 
 
 class BaseSymbol(ABC):

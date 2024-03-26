@@ -13,7 +13,7 @@ class Constant(BaseSymbol):
         return self.value
 
     def derivate(self) -> 'Constant':
-        return self
+        return Constant(0)
 
     def __repr__(self):
         if self.value == math.e:
