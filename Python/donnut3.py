@@ -3,7 +3,7 @@ from time import sleep
 from math import pi, sin, cos, atan, acos
 from collections import namedtuple
 
-R1 = 4
+R1 = 5
 R2 = 14
 
 Xi = [x for x in range(-R1, R1 + 1)]

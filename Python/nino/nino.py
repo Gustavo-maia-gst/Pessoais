@@ -22,7 +22,9 @@ class Keyboard:
         for device in devices:
             if device.name == 'SIGMACHIP USB Keyboard':
                 self.device = device
-                break
+                return
+
+        raise Exception("Was not possible to identify the keyboard")
 
     def __iter__(self) -> Iterable:
         for event in self.device.read_loop():
