@@ -1,13 +1,6 @@
 # Pessoais
 Projetos gerais que desenvolvi.
 
-# Python/math/symbolic
-### Geral
-Desenvolvi esse módulo enquanto estava pagando a cadeira de cálculo com o intuito de escrever um programa que consiga derivar qualquer função, ele é em suma uma abstração para funções matemáticas, conseguindo derivar funções e avaliar em um ponto.
-
-### Funcionamento
-Ele funciona construindo uma árvore binária conceitual com operações, sendo uma composição de função considerada uma operação na árvore binária, para avaliar a função, funcionaria como uma chamada recursivo até os nós folhas, que seriam variáveis ou constantes, e ir construindo o resultado. Para derivar, funciona de forma parecida, é derivada a operação em função dos membros da operação, para entender como é implementado, recomendo olhar os códigos.
-
 # Python/math/polynomial.py
 ### Geral
 Esse módulo apresenta uma abstração para a representação de polinômios em python, a classe `Polynomial` é inicializada com uma string do tipo `'+axn +bxm'` para ax^n + bx^m, ela pode ser usada para operações básicas entre polinômios, como multiplicação e divisão, mas o principal foco é o rootfinding.
