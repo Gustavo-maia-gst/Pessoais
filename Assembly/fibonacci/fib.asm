@@ -9,7 +9,7 @@ _start:
 	mov eax, 1
 	mov ebx, 0
 	mov edx, 0
-	mov rcx, 0
+	mov rcx, byte [fibNum]
 
 	call _fibLoop
 
@@ -24,8 +24,8 @@ _fibLoop:
 	mov ebx, eax
 	add eax, edx
 
-	inc rcx
-	cmp cl, byte [fibNum]
-	jb _fibLoop
+	dec rcx
+	cmp rcx, 0
+	ja _fibLoop
 	ret
 
