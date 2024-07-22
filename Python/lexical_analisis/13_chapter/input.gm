@@ -1,0 +1,12 @@
+forrec(x, limit) {
+    if (x = limit) {
+        return;
+    }
+    c := x;
+    _print();
+    return forrec(x + 1, limit);
+}
+
+main() {
+    forrec(2, 7);
+}

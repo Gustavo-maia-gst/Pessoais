@@ -8,11 +8,11 @@ if [ $? != 0 ]; then
 fi
 
 yasm -f elf64 -o out.o out.asm 2> .log.txt
-ld -o out out.o 2>> .log.txt
+ld -o out out.o 2> /dev/null
 
 if [ $? != 0 ]; then
     echo "Error compiling the code:"
-    cat .log.txt
+    cat log.txt
     rm .log.txt
     exit 1
 fi
@@ -23,5 +23,5 @@ if [ $? = 0 ]; then
     echo "Result: "
     rm out.o .log.txt
     ./out
-    rm out
+    rm out out.asm
 fi
